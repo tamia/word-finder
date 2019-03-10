@@ -10,7 +10,7 @@ cup metro
 ...
 ```
 
-## Find words with given letters
+## Find words of given length within given letters
 
 ```
 ./find_by_letters 4 feburary

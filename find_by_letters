@@ -1,8 +1,12 @@
 #!/usr/bin/env ruby
-count = Integer(ARGV[0])
-letters = ARGV[1].chars.uniq
-words = File.read("words.txt").split("\n") - ("b".."z").to_a + ["i"]
-words.select! do |w|
-  w.size == count && w.chars.all? { |c| letters.include?(c) }
+
+def find_by_letter(count, word)
+  letters = word.chars.uniq
+  words = File.read("words.txt").split("\n") - ("b".."z").to_a + ["i"]
+  words.select! do |w|
+    w.size == count && w.chars.all? { |c| letters.include?(c) }
+  end
+  words
 end
-puts words
+
+puts find_by_letter(Integer(ARGV[0]), ARGV[1]) if ARGV.any?
