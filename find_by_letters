@@ -9,4 +9,4 @@ def find_by_letter(count, word)
   words
 end
 
-puts find_by_letter(Integer(ARGV[0]), ARGV[1]) if ARGV.any?
+puts find_by_letter(Integer(ARGV[0]), ARGV[1]) unless $0.include?("_test.rb")

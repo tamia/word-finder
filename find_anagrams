@@ -5,17 +5,17 @@ def find_anagrams(letters)
   count = letters.size
 
   words = File.read("words.txt").split("\n") - ("b".."z").to_a + ["i"]
-  # puts "#{words.size} words -- #{words.first(5)}"
+  puts "#{words.size} words -- #{words.first(5)}"
 
   # select all words that match the expected letters, correctly account for duplicate letters
   words.select! do |w|
     copy = letters.dup
     w.chars.all? { |c| (i = copy.index(c)) && copy.delete_at(i) }
   end
-  # puts "#{words.size} words -- #{words.first(5)}"
+  puts "#{words.size} words -- #{words.first(5)}"
 
   permutations = [1, 2, 3].flat_map { |i| words.permutation(i).to_a }
-  # puts "#{permutations.size} pairs -- #{permutations.first(5)}"
+  puts "#{permutations.size} pairs -- #{permutations.first(5)}"
 
   permutations.select! do |w|
     w.sum(&:size) == count && w.join.chars.sort == sorted_letters
@@ -27,4 +27,4 @@ def find_anagrams(letters)
   permutations
 end
 
-puts find_anagrams(ARGV.join.chars) if ARGV.any?
+puts find_anagrams(ARGV.join.chars) unless $0.include?("_test.rb")
