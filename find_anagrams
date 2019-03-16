@@ -1,25 +1,30 @@
 #!/usr/bin/env ruby
-letters = ARGV.join.chars
-sorted_letters = letters.sort
-count = letters.size
 
-words = File.read("words.txt").split("\n") - ("b".."z").to_a + ["i"]
-puts "#{words.size} words -- #{words.first(5)}"
+def find_anagrams(letters)
+  sorted_letters = letters.sort
+  count = letters.size
 
-# select all words that match the expected letters, correctly account for duplicate letters
-words.select! do |w|
-  copy = letters.dup
-  w.chars.all? { |c| (i = copy.index(c)) && copy.delete_at(i) }
+  words = File.read("words.txt").split("\n") - ("b".."z").to_a + ["i"]
+  # puts "#{words.size} words -- #{words.first(5)}"
+
+  # select all words that match the expected letters, correctly account for duplicate letters
+  words.select! do |w|
+    copy = letters.dup
+    w.chars.all? { |c| (i = copy.index(c)) && copy.delete_at(i) }
+  end
+  # puts "#{words.size} words -- #{words.first(5)}"
+
+  permutations = [1, 2, 3].flat_map { |i| words.permutation(i).to_a }
+  # puts "#{permutations.size} pairs -- #{permutations.first(5)}"
+
+  permutations.select! do |w|
+    w.sum(&:size) == count && w.join.chars.sort == sorted_letters
+  end
+  permutations.each(&:sort!)
+  permutations.uniq!
+  permutations.map! { |w| w.join(" ") }
+  permutations.delete letters.join
+  permutations
 end
-puts "#{words.size} words -- #{words.first(5)}"
 
-permutations = [1, 2, 3].flat_map { |i| words.permutation(i).to_a }
-puts "#{permutations.size} pairs -- #{permutations.first(5)}"
-
-permutations.select! do |w|
-  w.sum(&:size) == count && w.join.chars.sort == sorted_letters
-end
-permutations.each(&:sort!)
-permutations.uniq!
-puts permutations.map! { |w| w.join(" ") }
-
+puts find_anagrams(ARGV.join.chars) if ARGV.any?
