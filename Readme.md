@@ -28,5 +28,4 @@ fear
 
 ./secret_code symbol encode "do not show this to a teacher" # -> $0 /05 4)08 5)*4 50 ! 5%!#)%3
 ./secret_code symbol decode '$0 /05 4)08 5)*4 50 ! 5%!#)%3' # -> do not show this to a teacher
-
 ```
